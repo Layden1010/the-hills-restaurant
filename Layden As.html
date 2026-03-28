@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Portail Magique - Layden As</title>
+    <style>
+        /* --- LE CODE CSS --- */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #020617; /* Fond sombre profond */
+            overflow: hidden;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+
+        .portal {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Style commun pour tous les anneaux */
+        .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top: 3px solid #38bdf8; /* Bleu clair */
+            border-left: 3px solid #a855f7; /* Violet */
+            animation: spin 3s linear infinite;
+        }
+
+        /* Deuxième anneau (plus petit et sens inverse) */
+        .ring:nth-child(2) {
+            width: 220px;
+            height: 220px;
+            top: 40px;
+            left: 40px;
+            animation-direction: reverse;
+            animation-duration: 2s;
+        }
+
+        /* Troisième anneau (encore plus petit et couleurs différentes) */
+        .ring:nth-child(3) {
+            width: 140px;
+            height: 140px;
+            top: 80px;
+            left: 80px;
+            border-top-color: #22c55e; /* Vert */
+            border-left-color: #f59e0b; /* Orange */
+            animation-duration: 1.5s;
+        }
+
+        /* Le noyau lumineux au centre */
+        .core {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #fff, #38bdf8);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                0 0 20px #38bdf8,
+                0 0 40px #38bdf8,
+                0 0 80px #38bdf8;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Conteneur pour le texte qui tourne */
+        .text-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            animation: spin 8s linear infinite;
+        }
+
+        /* Deuxième orbite de texte (sens inverse) */
+        .text-orbit-reverse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            animation: spin-reverse 6s linear infinite;
+        }
+
+        /* Style pour le texte */
+        .floating-name {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px #38bdf8,
+                0 0 20px #a855f7,
+                0 0 30px #22c55e;
+            white-space: nowrap;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 15px;
+            border-radius: 25px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(56, 189, 248, 0.5);
+        }
+
+        /* Deuxième texte avec style différent */
+        .floating-name-second {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px #f59e0b,
+                0 0 20px #22c55e;
+            white-space: nowrap;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(3px);
+        }
+
+        /* Animation de pulsation pour le cœur */
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        /* Animation de rotation normale */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animation de rotation inverse */
+        @keyframes spin-reverse {
+            from {
+                transform: rotate(360deg);
+            }
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Effet de particules autour du portail */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #38bdf8, #a855f7);
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        /* Effet de brillance sur les anneaux au hover */
+        .portal:hover .ring {
+            filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.8));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        
+        <!-- Premier texte qui tourne autour du grand anneau -->
+        <div class="text-orbit">
+            <div class="floating-name">✨ Layden As ✨</div>
+        </div>
+        
+        <!-- Deuxième texte qui tourne en sens inverse autour du deuxième anneau -->
+        <div class="text-orbit-reverse">
+            <div class="floating-name-second">⚡ Layden As ⚡</div>
+        </div>
+        
+        <div class="core"></div>
+        
+        <!-- Particules décoratives -->
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <script>
+        // Créer des particules autour du portail
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const numberOfParticles = 30;
+            
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Position aléatoire autour du portail
+                const angle = (i / numberOfParticles) * Math.PI * 2;
+                const radius = 180 + Math.random() * 40;
+                const x = 150 + Math.cos(angle) * radius;
+                const y = 150 + Math.sin(angle) * radius;
+                
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.animationDelay = (i * 0.1) + 's';
+                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Ajouter un effet de scintillement au texte
+        function addGlitterEffect() {
+            const texts = document.querySelectorAll('.floating-name, .floating-name-second');
+            setInterval(() => {
+                texts.forEach(text => {
+                    const randomOpacity = 0.7 + Math.random() * 0.3;
+                    text.style.opacity = randomOpacity;
+                    setTimeout(() => {
+                        text.style.opacity = '1';
+                    }, 200);
+                });
+            }, 1500);
+        }
+        
+        // Initialiser les effets
+        createParticles();
+        addGlitterEffect();
+        
+        // Ajouter un effet de traînée au survol de la souris
+        document.querySelector('.portal').addEventListener('mousemove', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const angle = Math.atan2(y - centerY, x - centerX);
+            
+            // Faire briller légèrement les anneaux selon la position de la souris
+            const rings = document.querySelectorAll('.ring');
+            rings.forEach(ring => {
+                const intensity = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)) / 100;
+                ring.style.filter = `drop-shadow(0 0 ${intensity * 3}px rgba(56, 189, 248, 0.8))`;
+            });
+        });
+        
+        // Réinitialiser l'effet quand la souris quitte
+        document.querySelector('.portal').addEventListener('mouseleave', () => {
+            const rings = document.querySelectorAll('.ring');
+            rings.forEach(ring => {
+                ring.style.filter = '';
+            });
+        });
+    </script>
+</body>
+</html>
